@@ -128,6 +128,19 @@ describe "The RSpec reporter" do
     @fmt.dump_summary(0.1, 1, 0, 0)
   end
 
+  describe 'RSpec1Failure' do
+    before(:each) do
+      @rspec13_failure = mock('RSpec1.3 Failure', :exception => StandardError.new('rspec1.3 exception message'), :example_name => "RSpec 1.3 example name")
+    end
+
+    it 'should handle rspec (= 1.3) execution results' do
+      failure = CI::Reporter::RSpecFailure.new(@rspec13_failure)
+      failure.name.should_not be_nil
+      failure.message.should == 'rspec1.3 exception message'
+      failure.location.should_not be_nil
+    end
+  end
+
   describe 'RSpec2Failure' do
     before(:each) do
       @formatter = mock "formatter"
